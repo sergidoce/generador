@@ -1,6 +1,6 @@
 class Posicio:
 
-    def __init__(self, hora, assig, grup):
-        self.hora = hora
+    def __init__(self, assig, grup):
+        
         self.assig = assig
         self.grup = grup
