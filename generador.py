@@ -1,6 +1,5 @@
-import urllib, requests
+import requests
 import json
-from bs4 import BeautifulSoup
 from horari import Horari
 
 class Generador:
@@ -13,11 +12,6 @@ class Generador:
         self.horaris = []
         self.grups = [[]]
 
-        data = requests.get('https://api.fib.upc.edu/v2/assignatures/places/?format=json&client_id=bhKgd1HVmIPOjVZOBJZomwj8I1q7W2Hq8y2Fj781')
-        self.info_places_lliures = json.loads(data.text)
-        
-        data = requests.get('https://api.fib.upc.edu/v2/quadrimestres/2019Q2/classes/?format=json&client_id=bhKgd1HVmIPOjVZOBJZomwj8I1q7W2Hq8y2Fj781')
-        self.info_classes = json.loads(data.text)
 
     def insertarAsignaturas(self):
         
@@ -39,6 +33,17 @@ class Generador:
                 self.nomes_matins = False
                 self.nomes_tardes = True
 
-    def prova_grups(self):
-        print(self.info_places_lliures.keys)
+    def generar_horarios(self):
+
+        horari = Horari()
+        for i in range(0, Len(self.asignaturas)):
+            trobat = buscar_grup(self.asignaturas[i], horari)
+            if trobat == 0:
+                break
+            
+
+
+
+
+
         
