@@ -1,6 +1,6 @@
 
 import array as arr
-import Dades from dades.py
+from dades import Dades
 from posicio import Posicio
 class Horari:
 
@@ -36,6 +36,12 @@ class Horari:
             x = hores_teo[i]['inici']
             hora = self.hores[x]
             dia = hores_teo[i]['dia_setmana'] - 1
+            self.horari[hora][dia] = posicio
 
+        for i in range(0, Len(hores_lab)):
+            posicio = Posicio(asignatura, grup_lab)
+            x = hores_lab[i]['inici']
+            hora = self.hores[x]
+            dia = hores_lab[i]['dia_setmana'] - 1
             self.horari[hora][dia] = posicio
 

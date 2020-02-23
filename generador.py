@@ -1,6 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+
 import requests
 import json
 from horari import Horari
+
 
 class Generador:
     
@@ -11,6 +16,7 @@ class Generador:
         self.nomes_tardes = False
         self.horaris = []
         self.grups = [[]]
+        dades = Dades()
 
 
     def insertarAsignaturas(self):
@@ -33,20 +39,41 @@ class Generador:
                 self.nomes_matins = False
                 self.nomes_tardes = True
 
+    def i_generar_horarios(self, horari, assig, grupo, cont_assig):
+        res = horari.ponerLab(assig, grupo)
+        if res:
+            if cont_assig == Len(self.asignaturas) - 1:
+                self.horarios.append(horari)
+                return
+
+            cont_assig = cont_assig + 1
+            assig = self.asignaturas[cont_assig]
+            grupos_teoria = dades.get_grupos_teoria(assig)
+
+            for i in range(0, Len(grupos_teoria)):
+                if horari.ponerTeoria(grupos_teoria[i]):
+                    grupos_lab = dades.get_grupos_lab(assig, grupos_teoria[i])
+                    for p in range(0, Len(grupos_lab)):
+                        i_generar_horarios(self, horari, assig, grupos_lab[p], cont_assig)
+
+                    horari.eliminarTeoria(assig, grupos_teoria[i])
+        else:
+            return
+
     def generar_horarios(self):
 
         horari = Horari()
-        failed = False
-        for i in range(0, Len(self.asignaturas)):
-            trobat = buscar_grup(self.asignaturas[i], horari)
-            if trobat == 0:
-                failed = True
-                break
-            horari.set_hora(self.asignaturas[i], trobat)
+        assig = self.asignaturas[0]
+        cont_assig = 0
 
-        if failed == False:
-            self.horaris.append(horari)
+        grupos_teoria = dades.get_grupos_teoria(assig)
+        for i in range(0, Len(grupos_teoria)):
+            if horari.ponerTeoria(assig, grupos_teoria[i]):
+                grupos_lab = dades.get_grupos_lab(assig, grupos_teoria[i])
+                for p in range(0, Len(grupos_lab)):
+                    i_generar_horarios(self, horari, assig, grupos_lab[p], cont_assig + 1)
 
+                horari.eliminarTeoria(assig, grupos_teoria[i])
 
 
     def print_horaris(self):
