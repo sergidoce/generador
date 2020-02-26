@@ -27,7 +27,7 @@ class Horari:
     def ponerTeoria(self, assig, grupo):
 
         clases = self.dades.get_clases_teoria(assig, grupo)
-        print(len(clases))
+        
         for i in range(0, len(clases)):
 
             assig = clases[i]['codi_assig']
@@ -41,8 +41,7 @@ class Horari:
             else:
                 posicio = Posicio(assig, grupo)
                 self.horari[hora_int][dia-1] = posicio
-                self.print_horari()
-                print("\n")
+                
         return True
 
     def eliminarTeoria(self, assig, grupo):

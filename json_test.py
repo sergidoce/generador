@@ -4,9 +4,5 @@ from dades import Dades
 from horari import Horari
 
 dades = Dades()
-horari = Horari()
-
-horari.print_horari()
-res = dades.get_grupos_teoria("IC")
-
-horari.ponerTeoria("IC", res[0])
+grupos = dades.get_grupos_lab("IC", "10")
+print(grupos)

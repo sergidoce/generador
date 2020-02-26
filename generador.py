@@ -5,6 +5,7 @@
 import requests
 import json
 from horari import Horari
+from dades import Dades
 
 
 class Generador:
@@ -16,7 +17,7 @@ class Generador:
         self.nomes_tardes = False
         self.horaris = []
         self.grups = [[]]
-        dades = Dades()
+        self.dades = Dades()
 
 
     def insertarAsignaturas(self):
@@ -42,19 +43,19 @@ class Generador:
     def i_generar_horarios(self, horari, assig, grupo, cont_assig):
         res = horari.ponerLab(assig, grupo)
         if res:
-            if cont_assig == Len(self.asignaturas) - 1:
-                self.horarios.append(horari)
+            if cont_assig == len(self.asignaturas) - 1:
+                self.horaris.append(horari)
                 return
 
             cont_assig = cont_assig + 1
             assig = self.asignaturas[cont_assig]
-            grupos_teoria = dades.get_grupos_teoria(assig)
+            grupos_teoria = self.dades.get_grupos_teoria(assig)
 
-            for i in range(0, Len(grupos_teoria)):
+            for i in range(0, len(grupos_teoria)):
                 if horari.ponerTeoria(assig, grupos_teoria[i]):
-                    grupos_lab = dades.get_grupos_lab(assig, grupos_teoria[i])
-                    for p in range(0, Len(grupos_lab)):
-                        i_generar_horarios(self, horari, assig, grupos_lab[p], cont_assig)
+                    grupos_lab = self.dades.get_grupos_lab(assig, grupos_teoria[i])
+                    for p in range(0, len(grupos_lab)):
+                        self.i_generar_horarios(horari, assig, grupos_lab[p], cont_assig)
 
                     horari.eliminarTeoria(assig, grupos_teoria[i])
         else:
@@ -66,14 +67,16 @@ class Generador:
         assig = self.asignaturas[0]
         cont_assig = 0
 
-        grupos_teoria = dades.get_grupos_teoria(assig)
-        for i in range(0, Len(grupos_teoria)):
+        grupos_teoria = self.dades.get_grupos_teoria(assig)
+        for i in range(0, len(grupos_teoria)):
             if horari.ponerTeoria(assig, grupos_teoria[i]):
-                grupos_lab = dades.get_grupos_lab(assig, grupos_teoria[i])
-                for p in range(0, Len(grupos_lab)):
-                    i_generar_horarios(self, horari, assig, grupos_lab[p], cont_assig + 1)
+                grupos_lab = self.dades.get_grupos_lab(assig, grupos_teoria[i])
+                for p in range(0, len(grupos_lab)):
+                    self.i_generar_horarios(horari, assig, grupos_lab[p], cont_assig + 1)
 
                 horari.eliminarTeoria(assig, grupos_teoria[i])
+
+        self.horaris[0].print_horari()
 
 
     
