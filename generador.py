@@ -51,7 +51,7 @@ class Generador:
             grupos_teoria = dades.get_grupos_teoria(assig)
 
             for i in range(0, Len(grupos_teoria)):
-                if horari.ponerTeoria(grupos_teoria[i]):
+                if horari.ponerTeoria(assig, grupos_teoria[i]):
                     grupos_lab = dades.get_grupos_lab(assig, grupos_teoria[i])
                     for p in range(0, Len(grupos_lab)):
                         i_generar_horarios(self, horari, assig, grupos_lab[p], cont_assig)
@@ -76,11 +76,4 @@ class Generador:
                 horari.eliminarTeoria(assig, grupos_teoria[i])
 
 
-    def print_horaris(self):
-        if Len(self.horaris) == 0:
-            print("No se han obtenido horarios")
-        else:
-            print("Se han obtenido horarios")
-
-
-        
+    

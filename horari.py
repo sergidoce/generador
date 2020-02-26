@@ -5,7 +5,7 @@ from posicio import Posicio
 class Horari:
 
     def __init__(self):
-        self.horari = [[None] * 13] * 5
+        self.horari = [[None for x in range(5)]  for x in range(13)]
         self.hores = {
 
             "08:00" : 0,
@@ -24,24 +24,39 @@ class Horari:
         }
         self.dades = Dades()
 
-    def set_hora(asignatura, grup):
-        grup_lab = grup
-        grup_teo = (grup / 10) * 10
+    def ponerTeoria(self, assig, grupo):
 
-        hores_teo = dades.buscar_hores(asignatura, grup_teo)
-        hores_lab = dades.buscar_hores(asignatura, grup_lab)
+        clases = self.dades.get_clases_teoria(assig, grupo)
+        print(len(clases))
+        for i in range(0, len(clases)):
 
-        for i in range(0, Len(hores_teo)):
-            posicio = Posicio(asignatura, grup_teo)
-            x = hores_teo[i]['inici']
-            hora = self.hores[x]
-            dia = hores_teo[i]['dia_setmana'] - 1
-            self.horari[hora][dia] = posicio
+            assig = clases[i]['codi_assig']
+            grupo = clases[i]['grup']
+            dia = clases[i]['dia_setmana']
+            hora = clases[i]['inici']
+            hora_int = self.hores[hora]
 
-        for i in range(0, Len(hores_lab)):
-            posicio = Posicio(asignatura, grup_lab)
-            x = hores_lab[i]['inici']
-            hora = self.hores[x]
-            dia = hores_lab[i]['dia_setmana'] - 1
-            self.horari[hora][dia] = posicio
+            if self.horari[hora_int][dia-1] is not None:
+                return False    
+            else:
+                posicio = Posicio(assig, grupo)
+                self.horari[hora_int][dia-1] = posicio
+                self.print_horari()
+                print("\n")
+        return True
 
+    def eliminarTeoria(self, assig, grupo):
+        for i in range(0, 13):
+            for p in range(0, 5):
+                if self.horari[i][p].get_assig() == assig and self.horari[i][p].get_grupo() == grupo:
+                    self.horari[i][p] = None
+
+    def print_horari(self):
+        for i in range(0, 13):
+            for p in range(0, 5):
+                print(i, end=" ")
+                print(p, end=" ")
+                if self.horari[i][p] == None:
+                    print("None")
+                else:
+                    self.horari[i][p].print_posicio()
