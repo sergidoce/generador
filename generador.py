@@ -47,11 +47,12 @@ class Generador:
         if res:
             if cont_assig == len(self.asignaturas) - 1:
                 self.horaris.append(horari)
+                horari.eliminar(assig, grupo)
                 horari.print_horari()
-                print("Hemos llegado a una solucion\n")
                 return
 
             cont_assig = cont_assig + 1
+            assig_old = assig
             assig = self.asignaturas[cont_assig]
             grupos_teoria = self.dades.get_grupos_teoria(assig)
 
@@ -61,7 +62,8 @@ class Generador:
                     for p in range(0, len(grupos_lab)):
                         self.i_generar_horarios(horari, assig, grupos_lab[p], cont_assig)
 
-                    horari.eliminarTeoria(assig, grupos_teoria[i])
+                    horari.eliminar(assig, grupos_teoria[i])
+            horari.eliminar(assig_old, grupo)
         else:
             return
 
@@ -78,12 +80,16 @@ class Generador:
                 for p in range(0, len(grupos_lab)):
                     self.i_generar_horarios(horari, assig, grupos_lab[p], cont_assig)
 
-                horari.eliminarTeoria(assig, grupos_teoria[i])
+                horari.eliminar(assig, grupos_teoria[i])
+        num_horarios = len(self.horaris)
+        print("Se han generado " + str(num_horarios) + " horarios")
+
 
     def print_horaris(self):
         for i in range(0, len(self.horaris)):
             self.horaris[i].print_horari()
             print("\n")
-
+        
+       
 
     
