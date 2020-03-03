@@ -40,11 +40,15 @@ class Generador:
                 self.nomes_matins = False
                 self.nomes_tardes = True
 
-    def i_generar_horarios(self, horari, assig, grupo, cont_assig):
+    def i_generar_horarios(self, old_horari, assig, grupo, cont_assig):
+        
+        horari = old_horari
         res = horari.ponerLab(assig, grupo)
         if res:
             if cont_assig == len(self.asignaturas) - 1:
                 self.horaris.append(horari)
+                horari.print_horari()
+                print("Hemos llegado a una solucion\n")
                 return
 
             cont_assig = cont_assig + 1
@@ -72,11 +76,14 @@ class Generador:
             if horari.ponerTeoria(assig, grupos_teoria[i]):
                 grupos_lab = self.dades.get_grupos_lab(assig, grupos_teoria[i])
                 for p in range(0, len(grupos_lab)):
-                    self.i_generar_horarios(horari, assig, grupos_lab[p], cont_assig + 1)
+                    self.i_generar_horarios(horari, assig, grupos_lab[p], cont_assig)
 
                 horari.eliminarTeoria(assig, grupos_teoria[i])
 
-        self.horaris[0].print_horari()
+    def print_horaris(self):
+        for i in range(0, len(self.horaris)):
+            self.horaris[i].print_horari()
+            print("\n")
 
 
     

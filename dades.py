@@ -79,3 +79,13 @@ class Dades:
                     grups.append(res[i]['grup'])
 
         return grups
+
+
+    def get_clases_lab(self, assig, grupo):
+        res = self.data_classes['results']
+        clases = []
+        for i in range(0, len(res)):
+            if res[i]['codi_assig'] == assig and res[i]['tipus'] == "L" and res[i]['grup'] == grupo:
+                clases.append(res[i])
+
+        return clases

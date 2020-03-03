@@ -11,6 +11,7 @@ def main():
     generador.insertarAsignaturas()
     generador.ajustes_adicionales()
     generador.generar_horarios()
+
     
 
 if __name__ == "__main__":

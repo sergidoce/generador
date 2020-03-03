@@ -47,8 +47,25 @@ class Horari:
     def eliminarTeoria(self, assig, grupo):
         for i in range(0, 13):
             for p in range(0, 5):
-                if self.horari[i][p].get_assig() == assig and self.horari[i][p].get_grupo() == grupo:
-                    self.horari[i][p] = None
+                if self.horari[i][p] is not None:
+                    if self.horari[i][p].get_assig() == assig and self.horari[i][p].get_grupo() == grupo:
+                        self.horari[i][p] = None
+
+
+    def ponerLab(self, assig, grupo):
+        clases = self.dades.get_clases_lab(assig, grupo)
+
+        for i in range(0, len(clases)):
+            dia = clases[i]['dia_setmana']
+            hora = clases[i]['inici']
+            hora_int = self.hores[hora]
+
+            if self.horari[hora_int][dia-1] is not None:
+                return False    
+            else:
+                posicio = Posicio(assig, grupo)
+                self.horari[hora_int][dia-1] = posicio   
+        return True
 
     def print_horari(self):
         for i in range(0, 13):
