@@ -83,6 +83,7 @@ class Generador:
                 horari.eliminar(assig, grupos_teoria[i])
         num_horarios = len(self.horaris)
         print("Se han generado " + str(num_horarios) + " horarios")
+        return self.horaris
 
 
     def print_horaris(self):
