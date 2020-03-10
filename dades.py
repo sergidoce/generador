@@ -39,6 +39,8 @@ class Dades:
         self.data_places_lliures = json.loads(data.text)
         data = requests.get('https://api.fib.upc.edu/v2/quadrimestres/2019Q2/classes/?format=json&client_id=bhKgd1HVmIPOjVZOBJZomwj8I1q7W2Hq8y2Fj781')
         self.data_classes = json.loads(data.text)
+        data = requests.get('https://api.fib.upc.edu/v2/assignatures/?format=json&client_id=bhKgd1HVmIPOjVZOBJZomwj8I1q7W2Hq8y2Fj781')
+        self.data_assignatures = json.loads(data.text)
 
     def get_grupos_teoria(self, assig):
         res = self.data_classes['results']
@@ -89,3 +91,13 @@ class Dades:
                 clases.append(res[i])
 
         return clases
+
+    def get_assignatures(self):
+        assignatures = []
+        assig = self.data_assignatures['results']
+
+        for i in range(0, len(assig)):
+            plans = assig[i]['plans']
+            if "GRAU" in plans:      
+                assignatures.append(assig[i]['id'])
+        return assignatures

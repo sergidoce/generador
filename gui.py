@@ -1,5 +1,10 @@
 from tkinter import *
 from generador import Generador
+from dades import Dades
+
+def on_select_1(event):
+    selec = event.widget.curselection()
+    list_selec.insert(END, list_assig.get(selec[0]))
 
 
 HEIGHT = 700
@@ -24,16 +29,22 @@ horari_frame.place(relx = 0.3, rely = 0, relwidth = 0.7, relheight = 1)
 frame_assig = Frame(frame, bg = 'red')
 frame_assig.place(relx = 0, rely = 0, relwidth = 1, relheight = 0.5)
 
-label = Label(frame_assig, text = "Escolliu les assignatures que voleu cursar", padx = 35, pady = 20)
+label = Label(frame_assig, text = "Escolliu les assignatures que voleu cursar", padx = 35, pady = 20, bg = 'red')
 label.grid(row = 0, column = 0)
 
 
 list_assig = Listbox(frame_assig)
-list_assig.place(relx = 0.2, relwidth = 0.2)
+list_assig.place(relx = 0.1, relwidth = 0.3, rely = 0.15)
+list_assig.bind('<<ListboxSelect>>', on_select_1)
 
 list_selec = Listbox(frame_assig)
-list_selec.place(relx = 0.6, relwidth = 0.2)
+list_selec.place(relx = 0.6, relwidth = 0.3, rely = 0.15)
 
+dades = Dades()
+assignatures = dades.get_assignatures()
+
+for assignatura in assignatures:
+    list_assig.insert(END, assignatura)
 
 root.mainloop()
 
